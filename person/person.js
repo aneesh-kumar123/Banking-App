@@ -61,7 +61,10 @@ class Person {
 
   viewAllBalance() {
     for (let i = 0; i < this.accounts.length; i++) {
-      console.log(this.accounts[i].balance)
+      // console.log(this.accounts[i].accountId)
+      // console.log(this.accounts[i].balance)
+      console.log(`Account ID: ${this.accounts[i].accountId}, Balance: Rs. ${this.accounts[i].balance}`);
+
     }
 
   }

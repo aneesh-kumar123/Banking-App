@@ -31,7 +31,8 @@ class Account
     }
     catch(error)
     {
-      console.log(error)
+      // console.log(error)
+      throw error
     }
   }
 
@@ -58,7 +59,7 @@ class Account
    }
    catch(error)
    {
-     console.log(error)
+     throw error
    }
   }
 
@@ -76,9 +77,9 @@ class Account
         throw new Error("Amount should be positive")
       }
       
-      if(amount>this.balance)
+      if(this.balance - amount < this.minBalance)
       {
-        throw new Error("Amount should be less than balance")
+        throw new Error("Amount should be less than balance,minimum amount should be 1000")
       }
     
       this.balance-=amount
@@ -87,7 +88,7 @@ class Account
     }
     catch(error)
     {
-      console.log(error)
+      throw error
     }
   }
 
@@ -118,7 +119,7 @@ class Account
     }
     catch(error)
     {
-      console.log(error)
+      throw error
     }
 
     
