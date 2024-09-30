@@ -6,14 +6,16 @@ class Account
   {
     this.accountType=accountType
     this.accountId=Account.accountId++;
-    this.minBalance=1000
     this.balance=1000
     this.isActive=true
+    this.passBook=[]
+    
   }
 
-  getBalance()
+  viewBalance()
   {
-    return this.balance
+    console.log(`Account ID: ${this.accountId}, Balance: rs. ${this.balance}`);
+    
   }
 
 
@@ -26,6 +28,7 @@ class Account
         throw new Error("Account type should be string")
       }
       let newAccount=new Account(accountType)
+
       return newAccount
 
     }
@@ -36,25 +39,48 @@ class Account
     }
   }
 
+  addTransactionToPassBook(type,amount,balanceNow)
+  {
+    try{
+      if(typeof type!=="string")
+      {
+        throw new Error("Type should be string")
+      }
+      if(typeof amount!=="number")
+      {
+        throw new Error("Amount should be number")
+      }
+      if(typeof balanceNow!=="number")
+      {
+        throw new Error("Balance should be number")
+      }
+      const date = new Date().toLocaleString();
+      this.passBook.push({type,amount,balanceNow,date})
+
+    }
+    catch(error)
+    {
+      throw error
+    }
+  }
+
   deposit(amount)
   {
    try{
-   
-    
     if(typeof amount!=="number")
     {
       throw new Error("Amount should be number")
     }
-   
-    
     if(amount<=0)
     {
       throw new Error("Amount should be positive")
     }
     
-    
     this.balance+=amount
     console.log(`Deposited ${amount} into account ${this.accountId}`)
+    
+    this.addTransactionToPassBook("credit",amount,this.balance)
+
 
    }
    catch(error)
@@ -77,13 +103,17 @@ class Account
         throw new Error("Amount should be positive")
       }
       
-      if(this.balance - amount < this.minBalance)
+      if(amount > this.balance)
       {
-        throw new Error("Amount should be less than balance,minimum amount should be 1000")
+        throw new Error("Amount should be less than balance.")
       }
     
       this.balance-=amount
+
       console.log(` The Withdraw ${amount} from account ${this.accountId}`)
+      this.addTransactionToPassBook("debit",amount,this.balance)
+
+      
 
     }
     catch(error)
@@ -106,16 +136,15 @@ class Account
         throw new Error("Amount should be positive")
       }
 
-      if(this.balance - amount < this.minBalance)
+      if(amount>this.balance)
       {
-        throw new Error("Amount should be less than balance.Cannot go below Rs. 1000.")
+        throw new Error("Amount should be less than balance.")
       }
 
       this.balance-=amount
-      // toAccount.balance+=amount
       toAccount.deposit(amount)
-      // console.log(` The Transfered ${amount} from account ${this.accountId} to account ${toAccount.accountId}`)
-
+      console.log(` The Transfered ${amount} from account ${this.accountId} to account ${toAccount.accountId}`)
+      this.addTransactionToPassBook("transfer",amount,this.balance)
     }
     catch(error)
     {
@@ -124,16 +153,23 @@ class Account
 
     
   }
+  printPassbook() {
+    const totalRecord = this.passBook.length;
+    const startIndex = 0; 
+    const pageSize = totalRecord; 
+    
+    if (totalRecord === 0) {
+        console.log("No records found in the passbook.");
+        return;
+    }
 
- 
+    console.log(`Passbook for Account ID: ${this.accountId}:`);
 
+   console.log(`Total Records: ${totalRecord}`)
+    for (let i = startIndex; i < pageSize; i++) {
+        console.log(this.passBook[i]);
+    }
+}
 
-
-
-
-
-
- 
- 
 }
 module.exports = Account;
