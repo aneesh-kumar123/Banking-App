@@ -148,6 +148,7 @@ class Account
     }
     catch(error)
     {
+      this.balance+=amount
       throw error
     }
 
