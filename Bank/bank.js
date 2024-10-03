@@ -7,6 +7,7 @@ class Bank
     this.name=name
     this.abbreviation=abbreviation
     this.allBankAccounts=[]
+    this.ledger=[]
     this.bankId=Bank.bankId++
     this.isActive=true
 
@@ -64,15 +65,74 @@ class Bank
       {
         throw new Error('Amount should be greater than 0')
       }
-      fromAccount.transferMoneyToAccount(amount,toAccount)
-
+      if(fromAccount.balance < amount)
+      {
+        throw new Error('Insufficient balance')
+      }
+      // fromAccount.transferMoneyToAccount(amount,toAccount)
+      
+      fromAccount.balance-=amount
+      toAccount.balance+=amount
+      this.recordTransationInLedger(toBank,-amount)
+      
+      toBank.recordTransationInLedger(this,amount)
       Ledger.recordTransaction(this,toBank,amount)
+
+      console.log(`Rs. ${amount} transferred from ${fromAccount.accountType} at ${this.name} to ${toAccount.accountType} at ${toBank.name}.`);
+
+
+      // Ledger.recordTransaction(this,toBank,amount)
     }
     catch(error)
     {
       throw new Error
     }
   }
+
+  recordTransationInLedger(otherBank,amount)
+  {
+    try{
+      
+      if(typeof amount!='number')
+      {
+        throw new Error('Amount should be a number')
+      }
+    
+      this.ledger.push({
+        otherBank: otherBank.name,
+        amount: amount,
+        date: new Date().toLocaleString()
+    });
+
+    }
+    catch(error)
+    {
+      throw new Error
+    }
+
+  }
+
+  printBankLedger()
+  {
+    try{
+      if (this.ledger.length === 0) {
+    
+        throw new error(`No transactions for ${this.name}.`)
+    }
+
+    console.log(`--- Ledger for ${this.name} ---`);
+    for (let entry of this.ledger) {
+        console.log(`${entry.otherBank}: ${entry.amount} on ${entry.date}`);
+    }
+
+    }
+    catch(error)
+    {
+      throw new Error
+    }
+  }
+
+
 
 
 

@@ -25,7 +25,7 @@ class Ledger
     }
   }
 
-  static printTransactions()
+  static printGlobalTransactions()
   {
     let startIndex=0
     let endIndex=Ledger.transaction.length
@@ -43,55 +43,55 @@ class Ledger
   
   }
 
-  static getNetBalance(bankName) {
-    const ledger = {};
+//   static getNetBalance(bankName) {
+//     const ledger = {};
 
     
-    for (const transaction of Ledger.transaction) {
-        const { fromBank, toBank, amount } = transaction;
+//     for (const transaction of Ledger.transaction) {
+//         const { fromBank, toBank, amount } = transaction;
 
        
-        if (fromBank === bankName) {
+//         if (fromBank === bankName) {
           
-            if (ledger[toBank] === undefined) {
-                ledger[toBank] = 0; 
-            }
+//             if (ledger[toBank] === undefined) {
+//                 ledger[toBank] = 0; 
+//             }
             
-            ledger[toBank] -= amount;
-        }
+//             ledger[toBank] -= amount;
+//         }
 
        
-        if (toBank === bankName) {
+//         if (toBank === bankName) {
             
-            if (ledger[fromBank] === undefined) {
-                ledger[fromBank] = 0; 
-            }
+//             if (ledger[fromBank] === undefined) {
+//                 ledger[fromBank] = 0; 
+//             }
             
-            ledger[fromBank] += amount;
-        }
-    }
+//             ledger[fromBank] += amount;
+//         }
+//     }
 
-    return ledger;
-}
+//     return ledger;
+// }
 
 
-static printLedgerForBank(bank) {
-    const bankName = bank.name;
-    const ledger = Ledger.getNetBalance(bankName);
+// static printLedgerForBank(bank) {
+//     const bankName = bank.name;
+//     const ledger = Ledger.getNetBalance(bankName);
 
-    console.log(`Ledger for ${bankName}:`);
+//     console.log(`Ledger for ${bankName}:`);
 
     
-    if (Object.keys(ledger).length === 0) {
-        console.log(`${bankName} has no transactions.`);
-        return;
-    }
+//     if (Object.keys(ledger).length === 0) {
+//         console.log(`${bankName} has no transactions.`);
+//         return;
+//     }
 
     
-    for (const otherBank in ledger) {
-        console.log(`${otherBank}: ${ledger[otherBank]}`);
-    }
-}
+//     for (const otherBank in ledger) {
+//         console.log(`${otherBank}: ${ledger[otherBank]}`);
+//     }
+// }
 
 
 }

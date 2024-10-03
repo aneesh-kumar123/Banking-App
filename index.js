@@ -40,7 +40,8 @@ user1.transferBetweenBanks(bank3, bank1, 2000, account3.accountId, account1.acco
 
 
 // Ledger.printTransactions()
-Ledger.printLedgerForBank(bank1)
+console.log("ledger report for bank")
+bank1.printBankLedger()
 
 
 admin.deleteBank(bank1);
